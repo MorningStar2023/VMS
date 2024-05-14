@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block custom_style %}
+<style>
+    tbody tr:hover {
+        cursor: pointer;
+    }
+</style>
+{% endblock custom_style %}
+
+{% block content %}
+<h4 class="fw-bold py-3 mb-4">Productivity</h4>
+
+<div class="card mt-4 px-3 py-2">
+    <div class="table-responsive text-nowrap mt-2">
+        <table class="table table-hover mb-2" id="example">
+            <thead>
+                <tr>
+                    <th>Vehicle</th>
+                    <th>Shift</th>
+                    <th>Load Efficiency</th>
+                    <th>Time Efficiency</th>
+                    <th>Km Conflicts</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for shift in shifts %}
+                    <tr onclick="location.href='{% url 'shift_details' shift.id %}'">
+                        <td>{{shift.vehicle}}</td>
+                        <td>{{shift.shift_name}}</td>
+                        <td {% if shift.shift_load_efficiency < 80 %}class="table-danger"{% endif %}>{{shift.shift_load_efficiency}}</td>
+                        <td {% if shift.shift_time_efficiency < 80 %}class="table-danger"{% endif %}>{{shift.shift_time_efficiency}}</td>
+                        <td {% if shift.shift_km_conflicts > 20 %}class="table-danger"{% endif %}>{{shift.shift_km_conflicts}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

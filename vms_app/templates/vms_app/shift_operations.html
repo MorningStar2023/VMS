@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+<div class="col-auto">
+    <a href="{% url "start_shift" %}" class="btn btn-primary">
+        <span class="tf-icons bx bx-list-plus"></span> Start Shift
+    </a>
+</div>
+<div class="col-auto">
+    <a href="{% url '' %}" class="btn btn-primary">
+        <span class="tf-icons bx bx-list-plus"></span> Start Shift
+    </a>
+</div>
+<div class="col-auto">
+    <a href="{% url 'end_shift' obj.id %}" class="btn btn-primary">
+        <span class="tf-icons bx bx-list-plus"></span> Start Shift
+    </a>
+</div>

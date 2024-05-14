@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+
+{% block custom_style %}
+    <style>
+        input[type=time]::-webkit-datetime-edit-ampm-field {
+            display: none;
+        }
+    </style>
+{% endblock custom_style %}
+
+{% block content %}
+    <h4 class="fw-bold py-3 mb-4">{{ form_title }}</h4>
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block custom_script %}
+<!-- vehicles -->
+<script>
+    $('#id_vehicle').select2();
+    $('#id_routes').select2();
+    $('#id_supervisor').select2();
+
+    {% if menu == 'menu-route' %}
+    zone = document.getElementById("id_zone")
+    zone.onchange = function() {
+        $.ajax({
+            type: "POST",
+            url: "{% url 'get_ward_by_zone' %}",
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                zone_id: zone.value
+            },
+            success: function (response) {
+                ward_list = response.ward_list;
+                ward = document.getElementById("id_ward");
+                ward.innerHTML = '';
+                ward.innerHTML = '<option value="" selected="">---------</option>';
+                for (let item of ward_list) {
+                    let ward_id = item[0];
+                    let ward_code = item[1];
+                    ward.innerHTML += `<option value="${ward_id}">${ward_code}</option>`;
+                }
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    };
+    {% endif %}
+</script>
+{% endblock custom_script %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h4 class="fw-bold py-3 mb-4">Destination Location</h4>
+
+<div class="row">
+    <div class="col-auto">
+        <a href="{% url 'add_destination' %}" class="btn btn-primary">
+            <span class="tf-icons bx bx-list-plus"></span>&nbsp; Add Destination
+        </a>
+    </div>
+</div>
+
+<div class="card mt-4 px-3 py-2">
+    <div class="table-responsive text-nowrap mt-2">
+        <table class="table" id="example">
+            <thead>
+                <tr>
+                    <th>name</th>
+                    <th>location</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                {% for destination in destination_list %}
+                    <tr>
+                        <td>{{destination.name}}</td>
+                        <td>{{destination.location}}</td>
+                        <td>
+                            <a class="btn btn-primary btn-sm btn-icon" href="{% url 'edit_destination' destination.id %}">
+                                <i class="bx bxs-pencil"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

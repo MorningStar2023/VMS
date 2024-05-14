@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h4 class="fw-bold py-3 mb-4">Wards</h4>
+
+    <div class="row">
+        <div class="col-auto">
+            <a href="{% url 'create_ward' %}" class="btn btn-primary">
+                <span class="tf-icons bx bx-list-plus"></span> Add Ward
+            </a>
+        </div>
+    </div>
+
+    <div class="card mt-4 px-3 py-2">
+        <div class="table-responsive text-nowrap mt-2">
+            <table class="table" id="example">
+                <thead>
+                <tr>
+                    <th>Ward</th>
+                    <th>Zone</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                {% for ward in wards %}
+                    <tr>
+                        <td>{{ ward.ward_code}}</td>
+                        <td>{{ ward.zone }}</td>
+                        <td>
+                            <a href="{% url 'edit_ward' ward.id %}" class="btn btn-primary btn-sm btn-icon"><i class="bx bxs-pencil"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock content %}

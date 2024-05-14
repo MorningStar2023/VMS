@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h4 class="fw-bold py-3 mb-4">{{view_title}}</h4>
+
+<div class="row">
+    <div class="col-auto">
+        <button type="button" class="btn btn-primary dropdown-toggle btn-icon hide-arrow" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class='bx bx-bar-chart'></i>
+        </button>
+        <ul class="dropdown-menu">
+            <li>
+                <a class="dropdown-item" href="{% url "fuel_efficieny_week_view" %}">Current Week</a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{% url "fuel_efficieny_month_view" %}">Current Month</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-auto">
+        <form action="{% url "fuel_efficieny_custom_view" %}" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-auto">
+                    <input class="form-control" type="date" name="start" value="{{data.start|date:"Y-m-d"}}" required>
+                </div>
+                <div class="col-auto">
+                    <label class="form-label mt-2">To</label>
+                </div>
+                <div class="col-auto">
+                    <input class="form-control" type="date" name="end" value="{{data.end|date:"Y-m-d"}}" required>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card mt-4 px-3 py-2">
+    <div class="table-responsive text-nowrap mt-2">
+        <table class="table" id="example">
+            <thead>
+                <tr>
+                    <th>vehicle</th>
+                    <th>total fuel quantity</th>
+                    <th>total fuel cost</th>
+                    <th>total km</th>
+                    <th>average mileage</th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                {% for log in fuel_logs %}
+                    <tr>
+                        <td>{{log.vehicle}}</td>
+                        <td>{{log.total_fuel_quantity}}</td>
+                        <td>{{log.total_fuel_cost}}</td>
+                        <td>{{log.total_km}}</td>
+                        <td>{{log.average_mileage}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block custom_style %}
+<style>
+    #vehicleFuelLog:hover {
+        cursor: pointer;
+        background-color: #eaeaea;
+    }
+</style>
+{% endblock custom_style %}
+
+{% block content %}
+<h4 class="fw-bold py-3 mb-4">Fuel Logs</h4>
+
+<div class="row">
+    <div class="col-auto">
+        <a href="{% url "add_fuel_log" %}" class="btn btn-primary">
+            <span class="tf-icons bx bx-list-plus"></span> Add Fuel Log
+        </a>
+    </div>
+    <div class="col-auto">
+        <a href="{% url "fuel_efficieny_week_view" %}" class="btn btn-primary btn-icon">
+            <i class='bx bx-bar-chart'></i>
+        </a>
+    </div>
+</div>
+
+<div class="card mt-4 px-3 py-2">
+    <div class="table-responsive text-nowrap mt-2">
+        <table class="table" id="example">
+            <thead>
+                <tr>
+                    <th>vehicle</th>
+                    <th>fuel type</th>
+                    <th>km</th>
+                    <th>date</th>
+                    <th>quantity</th>
+                    <th>cost</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                {% for log in fuel_logs %}
+                    <tr>
+                        <td id="vehicleFuelLog" onclick="location.href='{% url 'vehicle_fuel_logs' log.vehicle.id %}'">
+                            {{log.vehicle}}
+                        </td>
+                        <td>{{log.fuel_type}}</td>
+                        <td>{{log.fuel_km}}</td>
+                        <td>{{log.fuel_date}}</td>
+                        <td>{{log.fuel_quantity}}</td>
+                        <td>{{log.fuel_cost}}</td>
+                        <td>
+                            <a class="btn btn-sm btn-icon btn-primary" href="{% url 'edit_fuel_log' log.id %}">
+                                <i class="bx bxs-pencil"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block custom_style %}
+<style>
+    tbody tr:hover {
+        cursor: pointer;
+    }
+</style>
+{% endblock custom_style %}
+
+{% block content %}
+<h4 class="fw-bold py-3 mb-4">Vehicle Maintenance Schedules</h4>
+
+<div class="row">
+</div>
+
+<div class="card mt-4 px-3 py-2">
+    <div class="table-responsive text-nowrap mt-2">
+        <table class="table table-hover" id="example">
+            <thead>
+                <tr>
+                    <th>vehicle</th>
+                    <th>Total Services</th>
+                    <th>last service scheduled date</th>
+                    <th>last service status</th>
+                    <th>km gap</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                {% for maintenance in maintenance_list %}
+                    <tr {% if maintenance.last_schedule.scheduled_date > current_date %}class="table-danger"{% endif %}
+                        onclick="location.href='{% url 'vehicle_maintenance_list' maintenance.vehicle.id %}'">
+                        <td>{{maintenance.vehicle}}</td>
+                        <td>{{maintenance.total_services}}</td>
+                        {% if maintenance.last_schedule %}
+                            <td>{{maintenance.last_schedule.scheduled_date}}</td>
+                            <td>{{maintenance.last_schedule.status}}</td>
+                        {% else %}
+                            <td>None</td>
+                            <td>None</td>
+                        {% endif %}
+                        <td>{{maintenance.km_gap}}</td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

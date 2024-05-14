@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+    <h4 class="fw-bold py-3 mb-4">{{ request.user.name }}</h4>
+    <div class="card mb-4">
+        <h5 class="card-header">Profile Details</h5>
+        <div class="card-body">
+            <div class="d-flex align-items-start align-items-sm-center gap-4">
+                <img src="{% if request.user.image %}{{ request.user.image.url }}{% else %}{% static "assets/img/avatars/default.png" %}{% endif %}" alt="user-avatar"
+                     class="d-block rounded" height="100" width="100" id="uploadedAvatar">
+                <div class="button-wrapper">
+                    <a href="{% url 'change_password' %}" class="btn btn-primary me-2 mb-4" tabindex="0">
+                        Change Password
+                    </a>
+                </div>
+            </div>
+        </div>
+        <hr class="my-0">
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

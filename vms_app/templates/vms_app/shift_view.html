@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<h4 class="fw-bold py-3 mb-4">Shift View</h4>
+
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-4 col-sm-4">
+                <p>Shift: <b>{{shift.shift_name}}</b></p>
+                <p>Start Time: <b>{{shift.start_time}}</b></p>
+                <p>Out Km: <b>{{shift.out_km}}</b></p>
+                <p>Load Efficiency: <b>{{shift.shift_load_efficiency}}</b></p>
+            </div>
+            <div class="col-lg-4 col-sm-4">
+                <p>Vehicle: <b>{{shift.vehicle}}</b></p>
+                <p>End Time: <b>{{shift.end_time}}</b></p>
+                <p>In Km: <b>{{shift.in_km}}</b></p>
+                <p>Time Efficiency: <b>{{shift.shift_time_efficiency}}</b></p>
+            </div>
+            <div class="col-lg-4 col-sm-4">
+                <p>Driver: <b>{{shift.driver}}</b></p>
+                <p>Time Estimation: <b>{{shift.time_estimation}}</b></p>
+                <p>Km Estimation: <b>{{shift.km_estimation}}</b></p>
+                <p>Km Conflicts: <b>{{shift.shift_km_conflicts}}</b></p>
+            </div>
+        </div>
+        <div class="mt-2">
+            <h4>Routes</h4>
+            <ul>
+                {% for route in shift.routes.all %}
+                <li>{{route}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="card mt-2 px-3 py-2">
+    <h5 class="card-header">Trip History</h5>
+    <div class="table-responsive text-nowrap">
+        <table class="table" id="example">
+            <thead>
+                <tr>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Load</th>
+                    <th>Efficiency</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trip in shift.shift_trips_set.all %}
+                <tr>
+                    <td>{{trip.trip_start_time}}</td>
+                    <td>{{trip.trip_end_time}}</td>
+                    <td>{{trip.total_trip_load}}</td>
+                    <td>{{trip.trip_efficiency}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

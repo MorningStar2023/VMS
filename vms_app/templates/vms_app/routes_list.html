@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h4 class="fw-bold py-3 mb-4">Routes</h4>
+
+<div class="row">
+    <div class="col-auto">
+        <a href="{% url "add_route" %}" class="btn btn-primary">
+            <span class="tf-icons bx bx-list-plus"></span> Add Route
+        </a>
+    </div>
+    <div class="col-auto">
+        <button type="button" class="btn btn-primary btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bx bx-filter"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-start">
+            <li><a class="dropdown-item" href="{% url "route_list" %}">Active</a></li>
+            <li><a class="dropdown-item" href="{% url "route_list" %}?query=in_active">In Active</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="card mt-4 px-3 py-2">
+    <div class="table-responsive text-nowrap mt-2">
+        <table class="table" id="example">
+            <thead>
+                <tr>
+                    <th>Zone</th>
+                    <th>Ward</th>
+                    <th>Route</th>
+                    <th>Supervisor</th>
+                    <th>Time Estimation</th>
+                    <th>Km Estimation</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                {% for route in routes %}
+                <tr>
+                    <td>{{route.zone}}</td>
+                    <td>{{route.ward}}</td>
+                    <td>{{route.route}}</td>
+                    <td>{{route.supervisor}}</td>
+                    <td>{{route.time_estimation}}</td>
+                    <td>{{route.km_estimation}}</td>
+                    <td>
+                        {% if request.user.is_superuser %}
+                        <div class="dropdown">
+                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                              <i class="bx bx-dots-vertical-rounded"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a href="{% url "edit_route" route.id %}" class="dropdown-item">
+                                    <i class="bx bxs-pencil"></i>&nbsp;&nbsp;Edit
+                                </a>
+                                {% if route.is_active %}
+                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deactivate-{{route.id}}">
+                                        <i class="bx bxs-checkbox-minus"></i>&nbsp;&nbsp;Deactivate
+                                    </button>
+                                {% else %}
+                                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#activate-{{route.id}}">
+                                        <i class="bx bxs-checkbox-checked"></i>&nbsp;&nbsp;Activate
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="modal fade" id="deactivate-{{route.id}}" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel1">Deactivate</h5>
+                                        <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"
+                                        ></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="alert alert-danger" role="alert">
+                                            <p class="mt-3">Are you sure you want to deactivate: <b>{{route.area}}</b>?</p>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                            Close
+                                        </button>
+                                        <a href="{% url "deactivate_route" route.id %}" class="btn btn-danger">Deactivate</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="activate-{{route.id}}" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel1">Deactivate</h5>
+                                        <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"
+                                        ></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="mt-3">Are you sure you want to activate: <b>{{route.area}}</b>?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                            Close
+                                        </button>
+                                        <a href="{% url "activate_route" route.id %}" class="btn btn-primary">Activate</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                            <a href="{% url "edit_route" route.id %}" class="btn btn-sm btn-icon btn-primary">
+                                <span class="tf-icons bx bxs-pencil"></span>
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

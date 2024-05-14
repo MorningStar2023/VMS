@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block custom_style %}
+<style>
+    #vehicleFuelLog:hover {
+        cursor: pointer;
+        background-color: #eaeaea;
+    }
+</style>
+{% endblock custom_style %}
+
+{% block content %}
+<h4 class="fw-bold py-3 mb-4">{{ vehicle }} Fuel Logs</h4>
+
+<div class="card mt-4 px-3 py-2">
+    <div class="table-responsive text-nowrap mt-2">
+        <table class="table" id="example">
+            <thead>
+                <tr>
+                    <th>fuel type</th>
+                    <th>km</th>
+                    <th>date</th>
+                    <th>quantity</th>
+                    <th>cost</th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                {% for log in fuel_logs %}
+                    <tr>
+                        <td>{{log.fuel_type}}</td>
+                        <td>{{log.fuel_km}}</td>
+                        <td>{{log.fuel_date}}</td>
+                        <td>{{log.fuel_quantity}}</td>
+                        <td>{{log.fuel_cost}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

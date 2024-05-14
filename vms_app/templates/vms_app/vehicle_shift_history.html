@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h4 class="fw-bold py-3 mb-4">{{ vehicle }} Shift History</h4>
+
+
+<div class="card mt-4 px-3 py-2">
+    <div class="table-responsive text-nowrap mt-2">
+        <table class="table" id="example">
+            <thead>
+                <tr>
+                    <th>shift name</th>
+                    <th>start time</th>
+                    <th>out km</th>
+                    <th>end time</th>
+                    <th>in km</th>
+                    <th>driver</th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                {% for shift in vehicle_shift_list %}
+                    <tr>
+                        <td>{{shift.shift_name}}</td>
+                        <td>{{shift.start_time}}</td>
+                        <td>{{shift.out_km}}</td>
+                        <td>{{shift.end_time}}</td>
+                        <td>{{shift.in_km}}</td>
+                        <td>{{shift.driver}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,73 @@
+Models are updated.
+Update the functions and views according to the updates.
+
+Newly added models need crud operations.
+
+Leave security settings for now.
+
+7/4/24
+TODO
+
+Route
+1. Change Ward according to Route
+2. Typing Search in Supervisor
+
+Shift
+1. Typing Search in Vehicle
+2. Typing Search in Route(MultiSelect)
+3. Stop Shift
+4. Unclosed Shift Fix
+
+Transfer
+1. Typing Search in Vehicle
+
+Accident Log
+1. Typing Search in Vehicle
+
+Fuel Log
+1. Typing Search in Vehicle
+2. List particular Vehicle Fuel Log
+
+Job Card
+1. Typing Search in Vehicle
+
+Maintenance
+1. Typing Search in Vehicle
+
+Misc
+1. Manage Supervisor Absent
+2. All Table Search Options
+
+dumpyard -> Destination Location
+Show Trip history form Shift history
+List particular Vehicle Fuel Log
+
+jobcard
+spare_code field added.
+1. have to add the feild in spare appoval form. not spare request form. spare approval form.
+2. Remove mechanic from add job Card
+3. Add mechanic to start work. The Vehicle incharge who is starting the work should mention the mechanic name.
+
+TODO
+Manage Supervisor Absent
+All Table Search Options
+
+Productivity
+
+
+
+ToDo
+1. Admin previleg: change staff position. from staff to mech or zonal manager
+2. View admin profile
+
+3. Vehicle: details color code
+4. Zone: on click---> get route details of specific zone
+5. Date wise customization
+
+6. shift model: in and out km validate to positive float value only
+7. Transfer registery: Restrict edit option to supervisor. allow only zonal manager and superuser
+8. Transfer Registery: Action-> no need to show vehicle
+9. Finally: Add registery--> hide "From zone", feed value from back end
+10. Fuel log: hide edit button to all except super user
+11. Job card: Admin view--> color red to vehicles which are being in under maintenance more than 5 days
+

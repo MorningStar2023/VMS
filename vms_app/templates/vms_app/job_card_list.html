@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h4 class="fw-bold py-3 mb-4">Job Cards</h4>
+
+<div class="row">
+
+    <div class="col-auto">
+        <a href="{% url 'add_job_card' %}" class="btn btn-primary">
+            <span class="tf-icons bx bx-list-plus"></span> Add Job Card
+        </a>
+    </div>
+    <div class="col-auto">
+        <button type="button" class="btn btn-primary btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bx bx-filter"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-start">
+            <li><a class="dropdown-item" href="{% url "job_filter_view" %}?query=assigned">Assigned</a></li>
+            <li><a class="dropdown-item" href="{% url "job_filter_view" %}?query=spare_requested">Spare Requested</a></li>
+            <li><a class="dropdown-item" href="{% url "job_filter_view" %}?query=spare_alloted">Spare Alloted</a></li>
+            <li><a class="dropdown-item" href="{% url "job_filter_view" %}?query=working">Working</a></li>
+            <li><a class="dropdown-item" href="{% url "job_filter_view" %}?query=completed">Completed</a></li>
+        </ul>
+    </div>
+    {% if request.user.is_superuser or request.user.is_zonal_manager %}
+    <div class="col-auto">
+        <a href="{%url 'vehicle_job_history' %}" class="btn btn-primary btn-icon">
+            <i class='bx bx-bar-chart'></i>
+        </a>
+    </div>
+
+
+    {% endif %}
+</div>
+<div class="card mt-4 px-3 py-2">
+    <div class="text-wrap mt-2">
+        <table class="table" id="example">
+            <thead>
+                <tr>
+                    <th>vehicle</th>
+                    <th>workshop</th>
+                    <th>work</th>
+                    <th>status</th>
+                    <th>spares</th>
+                    <th>work start at</th>
+                    {% if request.user.is_superuser or request.user.is_zonal_manager %}<th>cost</th>{% endif %}
+                    <th>mechanics</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                {% for job in job_cards %}
+                    <tr>
+                        <td>{{job.vehicle}}</td>
+                        <td>{{job.workshop}}</td>
+                        <td>{{job.work}}</td>
+                        <td>{{job.status}}</td>
+                        <td>{{job.spares}}</td>
+                        <td>{{job.work_start_at}}</td>
+                        {% if request.user.is_superuser or request.user.is_zonal_manager %}<td>{{job.cost}}</td>{% endif %}
+                        <td>{{job.mechanics}}</td>
+                        <td>
+                            {% if job.status != "Completed" %}
+                            <div class="dropdown">
+                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                  <i class="bx bx-dots-vertical-rounded"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="{% url 'edit_job_card' job.id %}">
+                                        <i class='bx bxs-edit'></i>&nbsp;&nbsp;Edit
+                                    </a>
+                                    {% if request.user.is_superuser or request.user.is_zonal_manager or request.user.is_mechanic %}
+                                        {% if job.status == "Assigned" or job.status == "Spare Alloted" %}
+                                        <a class="dropdown-item" href="{% url 'start_job_card' job.id %}">
+                                            <i class='bx bx-play'></i>&nbsp;&nbsp;Start Job
+                                        </a>
+                                        {% elif job.status == "Working" %}
+                                        <a class="dropdown-item" href="{% url 'request_spare' job.id %}">
+                                            <i class='bx bxs-component'></i>&nbsp;&nbsp;Request Spare
+                                        </a>
+                                        <a class="dropdown-item" href="{% url 'end_job_card' job.id %}">
+                                            <i class='bx bx-stop'></i>&nbsp;&nbsp;End Job
+                                        </a>
+                                        {% elif job.status == "Spare Requested" %}
+                                        <a class="dropdown-item" href="{% url 'approve_spare' job.id %}">
+                                            <i class='bx bx-check-square'></i>&nbsp;&nbsp;Approve Spare
+                                        </a>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

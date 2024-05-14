@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h4 class="fw-bold py-3 mb-4">Accident Logs</h4>
+
+<div class="row">
+    <div class="col-auto">
+        <a href="{% url "create_accident_log" %}" class="btn btn-primary">
+            <span class="tf-icons bx bx-list-plus"></span> Add Accident Log
+        </a>
+    </div>
+</div>
+
+<div class="card mt-4 px-3 py-2">
+    <div class="table-responsive text-nowrap mt-2">
+        <table class="table" id="example">
+            <thead>
+                <tr>
+                    <th>Driver</th>
+                    <th>Age</th>
+                    <th>Employee Id</th>
+                    <th>Contact</th>
+                    <th>Vehicle</th>
+                    <th>Accident Time</th>
+                    <th>Accident Location</th>
+                    <th>Accident Severity</th>
+                    <th>Cause of Accident</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                {% for accident in accidents %}
+                    <tr>
+                        <td>{{accident.driver_name}}</td>
+                        <td>{{accident.age}}</td>
+                        <td>{{accident.employee_id}}</td>
+                        <td>{{accident.contact}}</td>
+                        <td>{{accident.vehicle}}</td>
+                        <td>{{accident.accident_time}}</td>
+                        <td>{{accident.accident_location}}</td>
+                        <td>{{accident.accident_severity}}</td>
+                        <td>{{accident.cause_of_accident}}</td>
+                        <td>
+                            <a class="btn btn-sm btn-icon btn-primary" href="{% url 'edit_accident_log' accident.id %}">
+                                <i class="bx bxs-pencil"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

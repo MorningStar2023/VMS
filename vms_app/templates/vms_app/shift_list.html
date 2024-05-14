@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h4 class="fw-bold py-3 mb-4">Shifts</h4>
+
+    <div class="row">
+        <div class="col-auto">
+            <a href="{% url 'start_shift' %}" class="btn btn-primary">
+                <span class="tf-icons bx bx-list-plus"></span> Start Shift
+            </a>
+        </div>
+        <div class="col-auto">
+            <a href="{% url 'shift_history' %}" class="btn btn-outline-primary"> Shift History</a>
+        </div>
+    </div>
+
+    {% if shift_list %}
+    <h5 class="fw-bold py-3 mt-4">Today Shifts</h5>
+    <div class="card mt-2 px-3 py-2">
+        <div class="table-responsive text-nowrap mt-2">
+            <table class="table" id="example">
+                <thead>
+                    <tr>
+                        <th>vehicle</th>
+                        <th>Estimation</th>
+                        <th>Km Estimation</th>
+                        <th>Current Trip</th>
+                        <th>Routes</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for shift in shift_list %}
+                        <tr>
+                            <td>{{ shift.vehicle }}</td>
+                            <td>{{ shift.shit_total_time_estimation }}</td>
+                            <td>{{ shift.shift_km_estimation }}</td>
+                            <td>{{ shift.shit_total_trip_count }}</td>
+                            <td>
+                                <ul>
+                                    {% for route in shift.routes.all %}
+                                    <li>{{ route }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <td>
+                                {% if not shift.end_time %}
+                                    <a href="{% url "edit_shift" shift.id %}"
+                                        class="btn btn-sm btn-primary btn-icon mx-1">
+                                        <i class="bx bxs-pencil"></i>
+                                    </a>
+                                    <a class="btn btn-sm btn-dark btn-icon mx-1" href="{% url 'rotate_trip' shift.id %}">
+                                        <i class='bx bx-repost'></i>
+                                    </a>
+                                    <a class="btn btn-sm btn-danger btn-icon mx-1" href="{% url 'end_shift' shift.id %}">
+                                        <i class="bx bxs-stopwatch"></i>
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+    {% endif %}
+
+    {% if unclosed_shift %}
+    <h5 class="fw-bold py-3 mt-4">Unclosed Shifts</h5>
+    <div class="card mt-2 px-3 py-2">
+        <div class="table-responsive text-nowrap mt-2">
+            <table class="table" id="example2">
+                <thead>
+                    <tr>
+                        <th>vehicle</th>
+                        <th>Estimation</th>
+                        <th>Km Estimation</th>
+                        <th>Current Trip</th>
+                        <th>Routes</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for shift in unclosed_shift %}
+                        <tr>
+                            <td>{{ shift.vehicle }}</td>
+                            <td>{{ shift.shit_total_time_estimation }}</td>
+                            <td>{{ shift.shift_km_estimation }}</td>
+                            <td>{{ shift.shit_total_trip_count }}</td>
+                            <td>
+                                <ul>
+                                    {% for route in shift.routes.all %}
+                                    <li>{{ route }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <td>
+                                {% if not shift.end_time %}
+                                    <a href="{% url "edit_shift" shift.id %}"
+                                        class="btn btn-sm btn-primary btn-icon mx-1">
+                                        <i class="bx bxs-pencil"></i>
+                                    </a>
+                                    <a class="btn btn-sm btn-dark btn-icon mx-1" href="{% url 'rotate_trip' shift.id %}">
+                                        <i class='bx bx-repost'></i>
+                                    </a>
+                                    <a class="btn btn-sm btn-danger btn-icon mx-1" href="{% url 'end_shift' shift.id %}">
+                                        <i class="bx bxs-stopwatch"></i>
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+    {% endif %}
+{% endblock content %}
+
+{% block custom_script %}
+{% if unclosed_shift %}
+<script>
+    new DataTable('#example2');
+</script>
+{% endif %}
+{% endblock custom_script %}

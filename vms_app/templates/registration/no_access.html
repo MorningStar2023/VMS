@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="alert alert-danger text-center" role="alert">
+    <h3 class="mt-3">You dont have access to this page</h3>
+    <a class="btn btn-primary mt-4 mb-4" href="{% url "home" %}" >Home Page</a>
+</div>
+{% endblock content %}

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h4 class="fw-bold py-3 mb-4">Staffs</h4>
+
+<div class="row">
+    <div class="col-auto">
+        <a href="{% url "create_transfer_register" %}" class="btn btn-primary">
+            <span class="tf-icons bx bx-list-plus"></span>&nbsp; Add Transfer Log
+        </a>
+    </div>
+</div>
+
+<div class="card mt-4 px-3 py-2">
+    <div class="table-responsive text-nowrap mt-2">
+        <table class="table" id="example">
+            <thead>
+                <tr>
+                    <th>Vehicle</th>
+                    <th>Request Date</th>
+                    <th>From Zone</th>
+                    <th>To Zone</th>
+                    <th>Requested By</th>
+                    <th>Status</th>
+{#                    <th>Log No</th>#}
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                {% for transfer in transfers %}
+                    <tr>
+                        <td>{{transfer.vehicle}}</td>
+                        <td>{{transfer.request_date}}</td>
+                        <td>{{transfer.from_zone}}</td>
+                        <td>{{transfer.to_zone}}</td>
+                        <td>{{transfer.requested_by}}</td>
+                        <td>{{transfer.status}}</td>
+{#                        <td>{{transfer.log_no}}</td>#}
+                        <td>
+                            {% if transfer.status == "hold" %}
+                            <div class="dropdown">
+                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                  <i class="bx bx-dots-vertical-rounded"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="{% url 'edit_transfer_register' transfer.id %}">
+                                        <i class="bx bxs-pencil"></i>&nbsp;&nbsp;Edit
+                                    </a>
+                                    <a class="dropdown-item" href="{% url 'transfer_register_status_view' transfer.id %}">
+                                        <i class='bx bx-transfer-alt'></i>&nbsp;&nbsp;Action
+                                    </a>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block custom_style %}
+<style>
+    tbody tr:hover {
+        cursor: pointer;
+    }
+</style>
+{% endblock custom_style %}
+
+{% block content %}
+<h4 class="fw-bold py-3 mb-4">Vehicle Job History</h4>
+
+<div class="row">
+    <div class="col-auto">
+        <form action="{% url "fuel_efficieny_custom_view" %}" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-auto">
+                    <input class="form-control" type="date" name="start" value="{{data.start|date:"Y-m-d"}}" required>
+                </div>
+                <div class="col-auto">
+                    <label class="form-label mt-2">To</label>
+                </div>
+                <div class="col-auto">
+                    <input class="form-control" type="date" name="end" value="{{data.end|date:"Y-m-d"}}" required>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card mt-4 px-3 py-2">
+    <div class="table-responsive text-nowrap mt-2">
+        <table class="table table-hover mb-2" id="example">
+            <thead>
+                <tr>
+                    <th>Vehicle</th>
+                    <th>Total Count</th>
+                    <th>Total Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vehicle in vehicle_maintanence_history %}
+                    <tr onclick="location.href='{% url 'vehicle_job_view' vehicle.vehicle.id %}'">
+                        <td>{{vehicle.vehicle}}</td>
+                        <td>{{vehicle.total_count}}</td>
+                        <td>{{vehicle.total_cost}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

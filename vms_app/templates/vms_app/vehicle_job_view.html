@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h4 class="fw-bold py-3 mb-4">{{vehicle}} Job History</h4>
+
+
+<div class="card mt-4 px-3 py-2">
+    <div class="table-responsive text-nowrap mt-2">
+        <table class="table" id="example">
+            <thead>
+                <tr>
+                    <th>workshop</th>
+                    <th>assigned on</th>
+                    <th>work</th>
+                    <th>spares</th>
+                    <th>work start at</th>
+                    <th>work closed at</th>
+                    <th>cost</th>
+                    <th>mechanics</th>
+                    <th>driver</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for job in vehicle_maintanence_log %}
+                    <tr>
+                        <td>{{job.workshop}}</td>
+                        <td>{{job.assigned_on}}</td>
+                        <td>{{job.work}}</td>
+                        <td>{{job.spares}}</td>
+                        <td>{{job.work_start_at}}</td>
+                        <td>{{job.work_closed_at}}</td>
+                        <td>{{job.cost}}</td>
+                        <td>{{job.mechanics}}</td>
+                        <td>{{job.driver}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h4 class="fw-bold py-3 mb-4">{% if data %}{{data.start|date:"d / m / Y"}} - {{data.end|date:"d / m / Y"}}{% else %}{{head}}{% endif %}</h4>
+
+<div class="row">
+    <div class="col-auto">
+        <button type="button" class="btn btn-primary btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bx bx-filter"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-start">
+            <li><a href="{% url "productivity_week_report" %}" class="dropdown-item">Current Week</a></li>
+            <li><a href="{% url "productivity_month_report" %}" class="dropdown-item">Current Month</a></li>
+        </ul>
+    </div>
+    <div class="col-auto">
+        <form action="{% url "productivity_custom_report" %}" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-auto">
+                    <input class="form-control" type="date" name="start" value="{{data.start|date:"Y-m-d"}}" required>
+                </div>
+                <div class="col-auto">
+                    <label class="form-label mt-2">To</label>
+                </div>
+                <div class="col-auto">
+                    <input class="form-control" type="date" name="end" value="{{data.end|date:"Y-m-d"}}" required>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+                </div>
+                {% if custom %}
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-dark btn-icon" name="download" value="1"><i class='bx bxs-download' ></i></button>
+                    </div>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+    {% if not custom %}
+        <div class="col-auto">
+            <form  method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-dark btn-icon" name="download" value="1"><i class='bx bxs-download' ></i></button>
+            </form>
+        </div>
+    {% endif %}
+</div>
+
+<div class="card mt-4 px-3 py-2">
+    <div class="table-responsive text-nowrap mt-2">
+        <table class="table" id="example">
+            <thead>
+                <tr>
+                    <th>Vehicle No.</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Driver</th>
+                    <th>Estimation</th>
+                    <th>Production</th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                {% for productivity in productivity_list %}
+                <tr>
+                    <td>{{productivity.vehicle}}</td>
+                    <td>{{productivity.start}}</td>
+                    <td>{{productivity.end}}</td>
+                    <td>{{productivity.driver }}</td>
+                    <td>{{productivity.estimation }}</td>
+                    <td>{{productivity.day_production }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}
